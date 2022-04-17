@@ -7,36 +7,36 @@ as long as you don't write other symbols and only contains 'nia' it will be fine
 
 ## key words:
 - `nia`: increase the value of current byte by one
-  - brainf**k +
+  - brainf**k `+`
 - `niA`: decrease the value of current byte by one
-  - brains**k -
-- `nIa`  bf ,
-- `nIA`  bf .
-- `Nia`  bf >
-- `NiA`  bf <
-- `NIa`  bf [
-- `NIA`  bf ]
+  - brains**k `-`
+- `nIa`  bf `,`
+- `nIA`  bf `.`
+- `Nia`  bf `>`
+- `NiA`  bf `<`
+- `NIA`  bf `[`
+- `NIa`  bf `]`
 
 ## example
 
 > hello-world.nia:
 ```
 niA 
-NIa 
+NIA 
     niA niA niA niA niA niA niA 
     NiA 
     nia 
     Nia 
-NIA 
+NIa 
 NiA niA 
 nIA 
 
 niA 
-NIa 
+NIA 
     niA 
     NiA nia nia nia nia nia 
     Nia 
-NIA 
+NIa 
 NiA nia nia 
 nIA 
 
@@ -47,24 +47,24 @@ nIA
 nia nia nia 
 nIA 
 
-NIa 
+NIA 
     niA niA niA NiA nia 
     Nia 
-NIA 
+NIa 
 NiA niA niA niA niA niA
 nIA 
 
 niA niA niA 
-NIa 
-    niA NiA nia nia nia Nia 
 NIA 
+    niA NiA nia nia nia Nia 
+NIa 
 NiA 
 nIA 
 
 niA 
-NIa 
-    niA niA niA NiA nia Nia 
 NIA 
+    niA niA niA NiA nia Nia 
+NIa 
 NiA niA niA niA 
 nIA 
 

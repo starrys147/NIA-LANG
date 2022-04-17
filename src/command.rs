@@ -34,7 +34,7 @@ fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
         } else if let Cmd::LoopE = cmd {
             let idx = match unpaired.pop() {
                 Some(val) => val,
-                None => return Err(String::from("Got unpaired `NIA`s")),
+                None => return Err(String::from("Got unpaired `NIa`s")),
             };
             cmds[idx] = Cmd::LoopB(i);
         }
@@ -42,7 +42,7 @@ fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
     }
 
     if unpaired.len() > 0 {
-        return Err(String::from("Got unpaired `NIa`s"));
+        return Err(String::from("Got unpaired `NIA`s"));
     }
 
     Ok(cmds)
@@ -62,8 +62,8 @@ impl Executer {
                 "nIA" => Putc,                                           // bf .
                 "Nia" => Inc,                                            // bf >
                 "NiA" => Dec,                                            // bf <
-                "NIa" => LoopB(0),                                          // bf [
-                "NIA" => LoopE,                                          // bf ]
+                "NIA" => LoopB(0),                                          // bf [
+                "NIa" => LoopE,                                          // bf ]
                 other => CmdErr(format!("No such operator: {}", &other)), // Error
             })
             .collect::<Vec<Cmd>>();

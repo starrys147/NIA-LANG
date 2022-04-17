@@ -4,5 +4,5 @@
 "nIA" => Putc,  // bf .
 "Nia" => Inc,   // bf >
 "NiA" => Dec,   // bf <
-"NIa" => LoopB, // bf [
-"NIA" => LoopE, // bf ]
+"NIA" => LoopB, // bf [
+"NIa" => LoopE, // bf ]
