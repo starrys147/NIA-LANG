@@ -14,13 +14,11 @@ impl Stack {
     }
 
     pub fn push(&mut self, val: usize) {
-        println!("[, self.top = {}", &self.top);
         self.buffer[self.top] = val;
         self.top += 1;
     }
 
     pub fn pop(&mut self) -> usize {
-        println!("], self.top = {}", &self.top);
         self.top -= 1;
         self.buffer[self.top]
     }
