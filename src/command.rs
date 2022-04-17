@@ -100,7 +100,7 @@ impl Executer {
                         self.idx = self.stack.pop() - 1; // bf ]
                     }
                 }
-                CmdErr(err) => return Err(format!("Error: {}", &err)), // Return The Error
+                CmdErr(err) => return Err(err.clone()), // Return The Error
             }
             self.update();
         }

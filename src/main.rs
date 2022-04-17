@@ -10,5 +10,8 @@ fn main() {
         process::exit(1)
     });
 
-    nia_lang::run(config).unwrap();
+    match nia_lang::run(config) {
+        Ok(_) => (),
+        Err(err) => eprintln!("Error: {}", &err),
+    };
 }
