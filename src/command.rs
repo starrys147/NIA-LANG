@@ -26,7 +26,7 @@ enum Cmd {
 
 fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
     let mut i = 0;
-    let mut unpaired:Vec<usize> = Vec::new();
+    let mut unpaired: Vec<usize> = Vec::new();
 
     while let Some(cmd) = cmds.get(i) {
         if let Cmd::LoopB(_) = cmd {
@@ -56,18 +56,18 @@ impl Executer {
         let commands = re
             .captures_iter(&nias[..])
             .map(|cap| match &cap[1] {
-                "nia" => Add,                                            // bf +
-                "niA" => Sub,                                            // bf -
-                "nIa" => Getc,                                           // bf ,
-                "nIA" => Putc,                                           // bf .
-                "Nia" => Inc,                                            // bf >
-                "NiA" => Dec,                                            // bf <
-                "NIA" => LoopB(0),                                          // bf [
-                "NIa" => LoopE,                                          // bf ]
+                "nia" => Add,                                             // bf +
+                "niA" => Sub,                                             // bf -
+                "nIa" => Getc,                                            // bf ,
+                "nIA" => Putc,                                            // bf .
+                "Nia" => Inc,                                             // bf >
+                "NiA" => Dec,                                             // bf <
+                "NIA" => LoopB(0),                                        // bf [
+                "NIa" => LoopE,                                           // bf ]
                 other => CmdErr(format!("No such operator: {}", &other)), // Error
             })
             .collect::<Vec<Cmd>>();
-        
+
         let commands = pair(commands)?;
 
         Ok(Executer {
