@@ -4,7 +4,6 @@ use std::fs;
 //
 mod buffer;
 mod command;
-mod stack;
 
 pub struct Config {
     filename: String,
