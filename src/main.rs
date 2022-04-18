@@ -1,7 +1,7 @@
-use std::process;
 use std::env;
+use std::process;
 
-// 
+//
 use nia_lang::Config;
 
 fn main() {
@@ -12,6 +12,9 @@ fn main() {
 
     match nia_lang::run(config) {
         Ok(_) => (),
-        Err(err) => eprintln!("Error: {}", &err),
+        Err(err) => {
+            eprintln!("Error: {}", &err);
+            process::exit(0)
+        }
     };
 }
