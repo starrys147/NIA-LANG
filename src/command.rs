@@ -3,12 +3,10 @@
 use regex::Regex;
 
 use crate::buffer::Buffer;
-use crate::stack::Stack;
 
 pub struct Executer {
     commands: Vec<Cmd>,
     buffer: Buffer,
-    stack: Stack,
     idx: usize,
 }
 
@@ -20,32 +18,8 @@ enum Cmd {
     Inc,
     Dec,
     LoopB(usize),
-    LoopE,
+    LoopE(usize),
     CmdErr(String),
-}
-
-fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
-    let mut i = 0;
-    let mut unpaired: Vec<usize> = Vec::new();
-
-    while let Some(cmd) = cmds.get(i) {
-        if let Cmd::LoopB(_) = cmd {
-            unpaired.push(i);
-        } else if let Cmd::LoopE = cmd {
-            let idx = match unpaired.pop() {
-                Some(val) => val,
-                None => return Err(String::from("Got unpaired `NIa`s")),
-            };
-            cmds[idx] = Cmd::LoopB(i);
-        }
-        i += 1;
-    }
-
-    if unpaired.len() > 0 {
-        return Err(String::from("Got unpaired `NIA`s"));
-    }
-
-    Ok(cmds)
 }
 
 impl Executer {
@@ -63,7 +37,7 @@ impl Executer {
                 "Nia" => Inc,                                             // bf >
                 "NiA" => Dec,                                             // bf <
                 "NIA" => LoopB(0),                                        // bf [
-                "NIa" => LoopE,                                           // bf ]
+                "NIa" => LoopE(0),                                        // bf ]
                 other => CmdErr(format!("No such operator: {}", &other)), // Error
             })
             .collect::<Vec<Cmd>>();
@@ -73,9 +47,12 @@ impl Executer {
         Ok(Executer {
             commands,
             buffer: Buffer::new(),
-            stack: Stack::new(),
             idx: 0,
         })
+    }
+
+    fn update(&mut self) {
+        self.idx += 1;
     }
 
     pub fn run(&mut self) -> Result<(), String> {
@@ -89,15 +66,13 @@ impl Executer {
                 Inc => self.buffer.inc(),   // bf >
                 Dec => self.buffer.dec(),   // bf <
                 LoopB(end) => {
-                    if self.buffer.val() > 0 {
-                        self.stack.push(self.idx); // bf [
-                    } else {
-                        self.idx = end.clone();
+                    if self.buffer.val() == 0 {
+                        self.idx = end.clone();// bf [
                     }
                 }
-                LoopE => {
+                LoopE(begin) => {
                     if self.buffer.val() > 0 {
-                        self.idx = self.stack.pop() - 1; // bf ]
+                        self.idx = begin.clone();
                     }
                 }
                 CmdErr(err) => return Err(err.clone()), // Return The Error
@@ -107,8 +82,31 @@ impl Executer {
 
         Ok(())
     }
+}
 
-    fn update(&mut self) {
-        self.idx += 1;
+fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
+    let mut i = 0;
+    let mut unpaired: Vec<usize> = Vec::new();
+
+    while let Some(cmd) = cmds.get(i) {
+        if let Cmd::LoopB(_) = cmd {
+            unpaired.push(i);
+
+        } else if let Cmd::LoopE(_) = cmd {
+            let idx = match unpaired.pop() {
+                Some(val) => val,
+                None => return Err(String::from("Got unpaired `NIa`s")),
+            };
+
+            cmds[idx] = Cmd::LoopB(i);
+            cmds[i] = Cmd::LoopE(idx);
+        }
+        i += 1;
     }
+
+    if unpaired.len() > 0 {
+        return Err(String::from("Got unpaired `NIA`s"));
+    }
+
+    Ok(cmds)
 }
