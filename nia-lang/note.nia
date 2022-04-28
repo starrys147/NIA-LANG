@@ -1,0 +1,8 @@
+"nia" => Add,   // bf +
+"niA" => Sub,   // bf -
+"nIa" => Getc,  // bf ,
+"nIA" => Putc,  // bf .
+"Nia" => Inc,   // bf >
+"NiA" => Dec,   // bf <
+"NIA" => LoopB, // bf [
+"NIa" => LoopE, // bf ]

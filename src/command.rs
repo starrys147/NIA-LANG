@@ -79,7 +79,6 @@ impl Executer {
             }
             self.update();
         }
-
         Ok(())
     }
 }
@@ -91,12 +90,14 @@ fn pair(mut cmds: Vec<Cmd>) -> Result<Vec<Cmd>, String> {
     while let Some(cmd) = cmds.get(i) {
         if let Cmd::LoopB(_) = cmd {
             unpaired.push(i);
-        } else if let &Cmd::LoopE(mut begin) = cmd {
-            begin = match unpaired.pop() {
+
+        } else if let Cmd::LoopE(_) = cmd {
+            let idx= match unpaired.pop() {
                 Some(val) => val,
                 None => return Err(String::from("Got unpaired `NIa`s")),
             };
-            cmds[begin] = Cmd::LoopB(i);
+            cmds[i] = Cmd::LoopE(idx);
+            cmds[idx] = Cmd::LoopB(i);
         }
         i += 1;
     }
