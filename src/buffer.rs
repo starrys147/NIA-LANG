@@ -33,25 +33,17 @@ impl Buffer {
     }
 
     pub fn add(&mut self) {
-        if self.buffer[self.idx] == 255 {
-            self.buffer[self.idx] = 0;
-        } else {
-            self.buffer[self.idx] += 1;
-        }
+        self.buffer[self.idx] = self.buffer[self.idx].wrapping_add(1);
     }
 
     pub fn sub(&mut self) {
-        if self.buffer[self.idx] == 0 {
-            self.buffer[self.idx] = 255;
-        } else {
-            self.buffer[self.idx] -= 1;
-        }
+        self.buffer[self.idx] = self.buffer[self.idx].wrapping_sub(1);
     }
 
     pub fn getc(&mut self) {
         let mut buf = [0];
         std::io::stdin()
-            .read(&mut buf)
+            .read(&mut buf[..])
             .expect("input error: Unexpected input");
         self.buffer[self.idx] = buf[0];
     }
